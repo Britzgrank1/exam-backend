@@ -1,0 +1,69 @@
+@startuml
+hide circle
+skinparam linetype ortho
+
+entity "Genre" as genre {
+   id : Integer
+  --
+  name : String
+}
+
+entity "Movie" as movie {
+   id : Integer
+  --
+  title : String
+  releaseDate : LocalDate
+  tmdbRating : Double
+  tmdbId : Integer
+}
+
+entity "Person" as person {
+   id : Integer
+  --
+  name : String
+  tmbdPersonId : Integer
+}
+
+entity "Credit" as credit {
+   id : Integer
+  --
+  movie : Movie
+  person : Person
+  role : String
+  characterName : String
+}
+
+entity "User" as user {
+   id : Integer
+  --
+  username : String
+  email : String
+  password : String
+}
+
+entity "UserMovieRating" as umr {
+   id : Integer
+  --
+  users : User
+  movie : Movie
+  rating : Integer
+  comment : String
+}
+
+entity "Watchlist" as watchlist {
+   id : Integer
+  --
+  users : User
+  movie : Movie
+  addedat : LocalDateTime
+}
+
+genre    }o--o{ movie
+movie    ||--o{ credit    : movie
+person   ||--o{ credit    : person
+movie    ||--o{ umr       : movie
+user     ||--o{ umr       : users
+movie    ||--o{ watchlist : movie
+user     ||--o{ watchlist : users
+
+@enduml
