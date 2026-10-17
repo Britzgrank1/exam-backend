@@ -21,9 +21,14 @@
         <org.slf4j>2.0.17</org.slf4j>
         <hamcrest>3.0</hamcrest>
         <javalin.version>6.5.0</javalin.version>
+        <jbcrypt.version>0.4</jbcrypt.version>
     </properties>
 
     <dependencies>
+
+
+
+
 
         <!--  DB    -->
         <dependency>
@@ -42,6 +47,9 @@
             <artifactId>hibernate-hikaricp</artifactId>
             <version>${hibernate-version}</version>
         </dependency>
+
+
+
 
         <!--  LOMBOK    -->
         <dependency>
@@ -116,7 +124,7 @@
             <artifactId>slf4j-api</artifactId>
             <version>${org.slf4j}</version>
         </dependency>
-        <!-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>

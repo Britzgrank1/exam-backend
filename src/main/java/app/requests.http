@@ -1,0 +1,56 @@
+POST http://localhost:7070/api/movies
+Content-Type: application/json
+
+{
+  "title": "Test",
+  "releaseDate": "2020-01-01",
+  "tmdbRating": 7.5,
+  "tmdbId": 1
+}
+
+###
+GET http://localhost:7070/api/movies
+
+###
+PUT http://localhost:7070/api/movies/1
+Content-Type: application/json
+
+{
+  "title": "Test opdateret",
+  "releaseDate": "2021-05-05",
+  "tmdbRating": 8.1,
+  "tmdbId": 1
+}
+
+###
+POST http://localhost:7070/api/movies
+Content-Type: application/json
+
+{
+  "releaseDate": "2020-01-01",
+  "tmdbRating": 7.5,
+  "tmdbId": 2
+}
+
+###
+GET http://localhost:7070/api/movies/abc
+
+###
+GET http://localhost:7070/api/movies/999
+
+###
+DELETE http://localhost:7070/api/movies/1
+
+###
+GET http://localhost:7070/api/movies/1
+
+//Genre test
+
+###
+GET http://localhost:7070/api/genres
+
+###
+GET http://localhost:7070/api/genres/1
+
+###
+GET http://localhost:7070/api/genres/abc

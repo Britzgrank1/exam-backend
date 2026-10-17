@@ -25,13 +25,18 @@ public class MovieDAO {
 
     public Movie getById(Integer id) {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.find(Movie.class, id);
+            return em.createQuery(
+                            "SELECT m FROM Movie m LEFT JOIN FETCH m.genres WHERE m.id = :id", Movie.class)
+                    .setParameter("id", id)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
         }
     }
 
     public List<Movie> getAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.createQuery("SELECT m FROM Movie m", Movie.class).getResultList();
+            return em.createQuery("SELECT DISTINCT m FROM Movie m LEFT JOIN FETCH m.genres", Movie.class).getResultList();
         }
     }
 

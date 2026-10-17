@@ -19,6 +19,8 @@ public class User {
     String username;
     String email;
 
+
+
     @Column(name = "password_hash")
     String password;
 
