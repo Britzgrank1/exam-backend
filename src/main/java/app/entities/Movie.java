@@ -21,7 +21,7 @@ public class Movie {
     LocalDate releaseDate;
 
     Double tmdbRating;
-    @Column(name = "tmdb_id")
+    @Column(name = "tmdb_id", unique = true)
     Integer tmdbId;
 
     @ManyToMany

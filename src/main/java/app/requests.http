@@ -33,13 +33,13 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:7070/api/movies/abc
+GET http://localhost:7070/api/movies
 
 ###
 GET http://localhost:7070/api/movies/999
 
 ###
-DELETE http://localhost:7070/api/movies/1
+DELETE http://localhost:7070/api/movies/2
 
 ###
 GET http://localhost:7070/api/movies/1

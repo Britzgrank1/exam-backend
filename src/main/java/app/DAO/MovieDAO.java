@@ -1,5 +1,6 @@
 package app.DAO;
 
+
 import app.entities.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -57,6 +58,16 @@ public class MovieDAO {
                 em.remove(movie);
             }
             em.getTransaction().commit();
+        }
+    }
+    public Movie getByTmdbId(Integer tmdbId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery(
+                            "SELECT m FROM Movie m WHERE m.tmdbId = :tmdbId", Movie.class)
+                    .setParameter("tmdbId", tmdbId)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
         }
     }
 }

@@ -25,5 +25,23 @@ public class GenreDAO {
             return em.createQuery("SELECT g FROM Genre g", Genre.class).getResultList();
         }
     }
+    public Genre create(Genre genre) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(genre);
+            em.getTransaction().commit();
+            return genre;
+        }
+    }
+    public Genre getByTmdbId(Integer tmdbId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery(
+                            "SELECT g FROM Genre g WHERE g.tmdbId = :tmdbId", Genre.class)
+                    .setParameter("tmdbId", tmdbId)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
+        }
+    }
 
 }

@@ -7,6 +7,7 @@ import app.controllers.MovieController;
 import app.DAO.MovieDAO;
 import app.exceptions.ApiException;
 import app.services.GenreService;
+import app.services.ImportService;
 import app.services.MovieService;
 import app.services.TmdbClient;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -27,9 +28,16 @@ public class Main {
         MovieController movieController = new MovieController(movieService);
 
         GenreDAO genreDAO = new GenreDAO(emf);
+
         GenreService genreService = new GenreService(genreDAO);
         GenreController genreController = new GenreController(genreService);
 
+//        ImportService importService = new ImportService(new TmdbClient(), genreDAO, movieDAO);
+//        importService.importGenres();
+//        importService.importMovies(2);
+
+        //Test til at se om jeg modtager genrene
+        new TmdbClient().fetchGenres().forEach(g -> System.out.println(g.getId() + " " + g.getName()));
 
         Javalin app = Javalin.create(config -> {
             config.showJavalinBanner = false;

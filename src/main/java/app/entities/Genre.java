@@ -18,6 +18,9 @@ public class Genre {
     Integer id;
     String name;
 
+    @Column(unique = true)
+    Integer tmdbId;
+
     @ManyToMany(mappedBy = "genres")
     Set<Movie> movies = new HashSet<>();
 
