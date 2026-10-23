@@ -37,7 +37,7 @@ public class Main {
 //        importService.importMovies(2);
 
         //Test til at se om jeg modtager genrene
-        new TmdbClient().fetchGenres().forEach(g -> System.out.println(g.getId() + " " + g.getName()));
+//        new TmdbClient().fetchGenres().forEach(g -> System.out.println(g.getId() + " " + g.getName()));
 
         Javalin app = Javalin.create(config -> {
             config.showJavalinBanner = false;
@@ -46,6 +46,9 @@ public class Main {
             }));
         }).start(7070);
 
+
+        // Healthcheck bliver brugt til docker og Caddy
+        app.get("/api/healthcheck", ctx -> ctx.json(Map.of("msg", "API is up and running")));
 
         //Movie routes
 
