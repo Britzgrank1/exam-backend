@@ -16,5 +16,6 @@ final class EntityRegistry {
        configuration.addAnnotatedClass(Credit.class);
        configuration.addAnnotatedClass(UserMovieRating.class);
        configuration.addAnnotatedClass(Watchlist.class);
+       configuration.addAnnotatedClass(Role.class);
     }
 }

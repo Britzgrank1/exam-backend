@@ -1,10 +1,12 @@
 package app;
 
 import app.DAO.GenreDAO;
+import app.DAO.SecurityDAO;
 import app.config.HibernateConfig;
 import app.controllers.GenreController;
 import app.controllers.MovieController;
 import app.DAO.MovieDAO;
+import app.controllers.SecurityController;
 import app.exceptions.ApiException;
 import app.services.GenreService;
 import app.services.ImportService;
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;
 import jakarta.persistence.EntityManagerFactory;
+import app.security.AccessRole;
 
 import java.util.Map;
 
@@ -32,6 +35,9 @@ public class Main {
         GenreService genreService = new GenreService(genreDAO);
         GenreController genreController = new GenreController(genreService);
 
+        SecurityDAO securityDAO = new SecurityDAO(emf);
+        SecurityController securityController = new SecurityController(securityDAO);
+
 //        ImportService importService = new ImportService(new TmdbClient(), genreDAO, movieDAO);
 //        importService.importGenres();
 //        importService.importMovies(2);
@@ -46,17 +52,24 @@ public class Main {
             }));
         }).start(7070);
 
+        app.beforeMatched(securityController::authenticate);
+        app.beforeMatched(securityController::authorize);
+
 
         // Healthcheck bliver brugt til docker og Caddy
         app.get("/api/healthcheck", ctx -> ctx.json(Map.of("msg", "API is up and running")));
+
+        // Auth/Security Routes
+        app.post("/api/auth/register", securityController::register,AccessRole.ANYONE);
+        app.post("/api/auth/login", securityController::login,AccessRole.ANYONE);
 
         //Movie routes
 
         app.get("/api/movies", movieController::getAll);
         app.get("/api/movies/{id}", movieController::getById);
-        app.delete("/api/movies/{id}", movieController::delete);
-        app.post("/api/movies", movieController::create);
-        app.put("/api/movies/{id}", movieController::update);
+        app.delete("/api/movies/{id}", movieController::delete,AccessRole.ADMIN);
+        app.post("/api/movies", movieController::create,AccessRole.ADMIN);
+        app.put("/api/movies/{id}", movieController::update,AccessRole.ADMIN);
 
         //Genre Routes
         app.get("/api/genres", genreController::getAll);
