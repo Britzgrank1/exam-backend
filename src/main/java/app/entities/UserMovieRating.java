@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Table(name = "user_movie_ratings")
+@Table(name = "user_movie_ratings", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id","movie_id"}))
 @Entity
 
 public class UserMovieRating {
@@ -21,6 +21,7 @@ public class UserMovieRating {
     @ManyToOne
     @JoinColumn(name = "movie_id")
     Movie movie;
+
 
     Integer rating;
     String comment;

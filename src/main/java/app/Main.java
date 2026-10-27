@@ -12,6 +12,9 @@ import app.services.GenreService;
 import app.services.ImportService;
 import app.services.MovieService;
 import app.services.TmdbClient;
+import app.DAO.RatingDAO;
+import app.services.RatingService;
+import app.controllers.RatingController;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;
@@ -37,6 +40,10 @@ public class Main {
 
         SecurityDAO securityDAO = new SecurityDAO(emf);
         SecurityController securityController = new SecurityController(securityDAO);
+
+        RatingDAO ratingDAO = new RatingDAO(emf);
+        RatingService ratingService = new RatingService(ratingDAO);
+        RatingController ratingController = new RatingController(ratingService);
 
 //        ImportService importService = new ImportService(new TmdbClient(), genreDAO, movieDAO);
 //        importService.importGenres();
@@ -70,6 +77,12 @@ public class Main {
         app.delete("/api/movies/{id}", movieController::delete,AccessRole.ADMIN);
         app.post("/api/movies", movieController::create,AccessRole.ADMIN);
         app.put("/api/movies/{id}", movieController::update,AccessRole.ADMIN);
+
+
+        //Rating
+        app.post("/api/movies/{id}/rating", ratingController::rateMovie, AccessRole.USER);
+        app.get("/api/recommendations", ratingController::getRecommendation, AccessRole.USER);
+
 
         //Genre Routes
         app.get("/api/genres", genreController::getAll);

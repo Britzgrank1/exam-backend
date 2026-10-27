@@ -100,3 +100,80 @@ Content-Type: application/json
   "username": "seif",
   "password": "forkert"
 }
+
+
+
+### SERVER: register
+POST https://exam.datudvikling.dk/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "seif",
+  "password": "test1234"
+}
+
+### SERVER: login (gemmer token)
+POST https://exam.datudvikling.dk/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "seif",
+  "password": "test1234"
+}
+
+> {%
+    client.global.set("serverToken", response.body.token);
+%}
+
+
+
+
+### RATING: giv film 1 en rating (skal give 200)
+POST http://localhost:7070/api/movies/28/rating
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "rating": 9,
+  "comment": "Rigtig god film"
+}
+
+### RATING: ændr din rating på samme film (skal give 200 og samme id som før)
+POST http://localhost:7070/api/movies/28/rating
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "rating": 7,
+  "comment": "Lidt mindre god anden gang"
+}
+
+### RATING: ugyldig værdi (skal give 400)
+POST http://localhost:7070/api/movies/1/rating
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "rating": 11
+}
+
+### RATING: film findes ikke (skal give 404)
+POST http://localhost:7070/api/movies/99999/rating
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "rating": 5
+}
+
+### RATING: uden token (burde give 401)
+POST http://localhost:7070/api/movies/1/rating
+Content-Type: application/json
+
+{
+  "rating": 5
+}
+
+### users anbefalinger (burde give 200)
+GET http://localhost:7070/api/recommendations
+Authorization: Bearer {{token}}
