@@ -28,6 +28,11 @@ public class Main {
     public static void main(String[] args) {
 
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
+        startServer(7070, emf);
+    }
+    public static Javalin startServer(int port, EntityManagerFactory emf) {
+
+
 
         MovieDAO movieDAO = new MovieDAO(emf);
         MovieService movieService = new MovieService(movieDAO);
@@ -57,7 +62,7 @@ public class Main {
             config.jsonMapper(new JavalinJackson().updateMapper(mapper -> {
                 mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             }));
-        }).start(7070);
+        }).start(port);
 
         app.beforeMatched(securityController::authenticate);
         app.beforeMatched(securityController::authorize);
@@ -93,5 +98,6 @@ public class Main {
             ctx.status(e.getCode());
             ctx.json(Map.of("status", e.getCode(), "msg", e.getMessage()));
         });
+        return app;
     }
 }
