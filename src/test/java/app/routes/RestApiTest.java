@@ -58,7 +58,7 @@ class RestApiTest {
     //  Security
 
     @Test
-    void register_returns201_withoutPassword() {
+    void register_withoutPassword() {
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -74,7 +74,7 @@ class RestApiTest {
     }
 
     @Test
-    void login_withWrongPassword_returns401() {
+    void login_withWrongPassword() {
         registerAndLogin("anna", "test1234");
 
         given()
@@ -89,7 +89,7 @@ class RestApiTest {
     }
 
     @Test
-    void rateMovie_withoutToken_returns401() {
+    void rateMovie_withoutToken() {
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -102,7 +102,7 @@ class RestApiTest {
     }
 
     @Test
-    void rateMovie_withInvalidRating_returns400() {
+    void rateMovie_withInvalidRating() {
         String token = registerAndLogin("anna", "test1234");
 
         given()
@@ -117,7 +117,7 @@ class RestApiTest {
                 .statusCode(400);
     }
 
-    // case: registrer, log ind, vurder og så få anbefaling
+    // case: Testen nedenfor er muligvis den case jeg fremviser
 
     @Test
     void examStory_register_login_rate_recommend() {

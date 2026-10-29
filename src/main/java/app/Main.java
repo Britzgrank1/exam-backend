@@ -54,12 +54,11 @@ public class Main {
         RatingService ratingService = new RatingService(ratingDAO);
         RatingController ratingController = new RatingController(ratingService);
 
+
 //        ImportService importService = new ImportService(new TmdbClient(), genreDAO, movieDAO);
 //        importService.importGenres();
 //        importService.importMovies(2);
 
-        //Test til at se om jeg modtager genrene
-//        new TmdbClient().fetchGenres().forEach(g -> System.out.println(g.getId() + " " + g.getName()));
 
         Javalin app = Javalin.create(config -> {
             config.showJavalinBanner = false;

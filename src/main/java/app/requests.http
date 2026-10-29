@@ -1,75 +1,5 @@
-POST http://localhost:7070/api/movies
-Content-Type: application/json
-
-{
-  "title": "Test",
-  "releaseDate": "2020-01-01",
-  "tmdbRating": 7.5,
-  "tmdbId": 1
-}
-
-###
-GET http://localhost:7070/api/movies
-
-###
-PUT http://localhost:7070/api/movies/1
-Content-Type: application/json
-
-{
-  "title": "Test opdateret",
-  "releaseDate": "2021-05-05",
-  "tmdbRating": 8.1,
-  "tmdbId": 1
-}
-
-
-
-###
-POST http://localhost:7070/api/movies
-Content-Type: application/json
-
-{
-  "releaseDate": "2020-01-01",
-  "tmdbRating": 7.5,
-  "tmdbId": 2
-}
-
-###
-GET http://localhost:7070/api/movies
-
-###
-GET http://localhost:7070/api/movies/412
-
-###
-DELETE http://localhost:7070/api/movies/2
-
-###
-GET http://localhost:7070/api/movies/1
-
-//Genre test
-
-###
-GET http://localhost:7070/api/genres
-
-###
-GET http://localhost:7070/api/genres/1
-
-###
-GET http://localhost:7070/api/genres/abc
-
-### Opret film som USER (skal give 403)
-POST http://localhost:7070/api/movies
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
-{
-  "title": "Test med token",
-  "releaseDate": "2020-01-01",
-  "tmdbRating": 7.5,
-  "tmdbId": 999
-}
-
 ### Register en ny bruger
+// ===== AUTH =====
 POST http://localhost:7070/api/auth/register
 Content-Type: application/json
 
@@ -77,7 +7,6 @@ Content-Type: application/json
   "username": "seif",
   "password": "test123"
 }
-
 
 ### Prøve at log ind med rigtige kode
 
@@ -101,34 +30,76 @@ Content-Type: application/json
   "password": "forkert"
 }
 
+###
+// ===== MOVIES (alle må se) =====
+GET http://localhost:7070/api/movies
 
+###
+GET http://localhost:7070/api/movies/1
 
-### SERVER: register
-POST https://exam.datudvikling.dk/api/auth/register
+###
+GET http://localhost:7070/api/movies/412
+
+###
+// ===== MOVIES (kræver ADMIN) =====
+POST http://localhost:7070/api/movies
 Content-Type: application/json
 
 {
-  "username": "seif",
-  "password": "test1234"
+  "title": "Test",
+  "releaseDate": "2020-01-01",
+  "tmdbRating": 7.5,
+  "tmdbId": 1
 }
 
-### SERVER: login (gemmer token)
-POST https://exam.datudvikling.dk/api/auth/login
+###
+PUT http://localhost:7070/api/movies/1
 Content-Type: application/json
 
 {
-  "username": "seif",
-  "password": "test1234"
+  "title": "Test opdateret",
+  "releaseDate": "2021-05-05",
+  "tmdbRating": 8.1,
+  "tmdbId": 1
 }
 
-> {%
-    client.global.set("serverToken", response.body.token);
-%}
+###
+POST http://localhost:7070/api/movies
+Content-Type: application/json
 
+{
+  "releaseDate": "2020-01-01",
+  "tmdbRating": 7.5,
+  "tmdbId": 2
+}
 
+###
+DELETE http://localhost:7070/api/movies/2
 
+### Opret film som USER (skal give 403)
+POST http://localhost:7070/api/movies
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Test med token",
+  "releaseDate": "2020-01-01",
+  "tmdbRating": 7.5,
+  "tmdbId": 999
+}
+
+###
+// ===== GENRES =====
+GET http://localhost:7070/api/genres
+
+###
+GET http://localhost:7070/api/genres/1
+
+###
+GET http://localhost:7070/api/genres/abc
 
 ### RATING: giv film 1 en rating (skal give 200)
+// ===== RATING OG ANBEFALING (kræver USER) =====
 POST http://localhost:7070/api/movies/28/rating
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -177,3 +148,26 @@ Content-Type: application/json
 ### users anbefalinger (burde give 200)
 GET http://localhost:7070/api/recommendations
 Authorization: Bearer {{token}}
+
+### SERVER: register
+// ===== DEPLOYED SERVER =====
+POST https://exam.datudvikling.dk/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "seif",
+  "password": "test1234"
+}
+
+### SERVER: login (gemmer token)
+POST https://exam.datudvikling.dk/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "seif",
+  "password": "test1234"
+}
+
+> {%
+    client.global.set("serverToken", response.body.token);
+%}

@@ -48,7 +48,7 @@ class MovieDAOTest {
     }
 
     @Test
-    void getById_withMissingId_returnsNull() {
+    void getById_withMissingId() {
         Movie fetched = movieDAO.getById(999_999);
 
         assertThat(fetched, nullValue());
