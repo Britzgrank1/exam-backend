@@ -2,7 +2,7 @@
 
 ## Vision
 
-Et REST API til film, hvor brugere kan registrere sig, logge ind, vurdere film og få anbefalinger baseret på de genrer de kan lide.
+Et Rest API til film, hvor brugere kan registrere sig, logge ind, give film en rating/kommentar og få anbefalinger ud fra hvilke film de har rated 7 eller over.
 
 ## Links
 
