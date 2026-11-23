@@ -62,6 +62,11 @@ public class Main {
 
         Javalin app = Javalin.create(config -> {
             config.showJavalinBanner = false;
+            config.bundledPlugins.enableCors(cors -> {
+                cors.addRule(it -> {
+                    it.allowHost("http://localhost:5173");
+                });
+            });
 
             config.requestLogger.http((ctx, ms) -> {
                 int status = ctx.status().getCode();
